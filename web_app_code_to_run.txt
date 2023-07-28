@@ -1,0 +1,5 @@
+cd Desktop
+
+cd Project-Allahji-Mutiu
+
+streamlit run deployment/app.py 
