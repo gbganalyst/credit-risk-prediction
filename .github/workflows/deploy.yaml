@@ -1,23 +1,27 @@
-name: Deploy app
+name: Streamlit Deployment
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install joblib
-        run: pip install joblib
-
-      - name: Clone repository
+      - name: Checkout the repository
         uses: actions/checkout@v2
 
-      - name: Deploy app
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
         run: |
-          export FLASK_APP=app.py
-          export FLASK_ENV=production
-          flask run -h 0.0.0.0 -p 8080
+          pip install --upgrade pip
+          pip install -r deployment/requirements.txt
+
+      - name: Run Streamlit App
+        run: streamlit run deployment/app.py --server.port $PORT
