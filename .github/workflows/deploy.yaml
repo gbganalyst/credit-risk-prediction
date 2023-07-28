@@ -1,0 +1,23 @@
+name: Deploy app
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install joblib
+        run: pip install joblib
+
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Deploy app
+        run: |
+          export FLASK_APP=app.py
+          export FLASK_ENV=production
+          flask run -h 0.0.0.0 -p 8080
